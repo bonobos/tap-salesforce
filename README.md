@@ -62,7 +62,7 @@ The included catalog file, `catalog.json`, is constructed to extract the Contact
 Refer to the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SYNC_MODE.md#replication-method) for 
 more information about replication types.
 
-By default, discovery mode will produce a catalog with forces FULL_TABLE sync for all streams. 
+By default, discovery mode will produce a catalog that forces a FULL_TABLE sync for all streams.
 
 To enable INCREMENTAL sync for any stream:
 
