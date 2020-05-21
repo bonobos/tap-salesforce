@@ -58,52 +58,49 @@ To sync data, select fields in the `properties.json` output and run the tap.
 
 ## Catalog, Extraction and Replication Types
 
-The included catalog file, `catalog.json`, is constructed to extract the Contact API and perform INCREMENTAL sync. Refer
-to the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SYNC_MODE.md#replication-method) for more information about replication types
+The included catalog file, `catalog.json`, is constructed to extract the Contact API and perform INCREMENTAL sync. 
+Refer to the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SYNC_MODE.md#replication-method) for 
+more information about replication types.
 
 By default, discovery mode will produce a catalog with forces FULL_TABLE sync for all streams. 
 
-To enable INCREMENTAL:
+To enable INCREMENTAL sync for any stream:
 
-### Determine the replication key for the stream. 
+1. Determine the replication key for the stream. The possible list of replication keys are normally identified by 
+discovery mode. These will be written to the stream metadata in the catalog in `valid-replication-keys`.
 
-The possible list of replication keys are normally identified by discovery mode. These will be written to the stream 
-metadata in the catalog in `valid-replication-keys`.
+    ```json
+    {
+      "breadcrumb": [],
+      "metadata": {
+        "valid-replication-keys": [
+          "SystemModstamp"
+        ],
+        "table-key-properties": [
+          "Id"
+        ],
+        "selected": true
+      }
+    }
+    ```
 
-```json
-{
-  "breadcrumb": [],
-  "metadata": {
-    "valid-replication-keys": [
-      "SystemModstamp"
-    ],
-    "table-key-properties": [
-      "Id"
-    ],
-    "selected": true
-  }
-}
-```
+2. Add replication key to the catalog. Edit stream metadata in the catalog to identify the desired replication key.
 
-### Add replication key to the catalog
-
-Edit stream metadata in the catalog to identify the desired replication key.
-
-```json
-{
-  "breadcrumb": [],
-  "metadata": {
-    "replication-key": "SystemModstamp",
-    "valid-replication-keys": [
-      "SystemModstamp"
-    ],
-    "table-key-properties": [
-      "Id"
-    ],
-    "selected": true
-  }
-}
-```
+    ```json
+    {
+      "breadcrumb": [],
+      "metadata": {
+        "replication-key": "SystemModstamp",
+        "valid-replication-keys": [
+          "SystemModstamp"
+        ],
+        "table-key-properties": [
+          "Id"
+        ],
+        "selected": true
+      }
+    }
+    ```
 
 
 
