@@ -78960,6 +78960,7 @@
         {
           "breadcrumb": [],
           "metadata": {
+            "replication-method": "INCREMENTAL",
             "replication-key": "SystemModstamp",
             "valid-replication-keys": [
               "SystemModstamp"

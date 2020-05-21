@@ -84,12 +84,14 @@ discovery mode. These will be written to the stream metadata in the catalog in `
     }
     ```
 
-2. Add replication key to the catalog. Edit stream metadata in the catalog to identify the desired replication key.
+2. Add replication key and replication method to the catalog. Edit stream metadata in the catalog to identify the 
+desired replication key and replication method.
 
     ```json
     {
       "breadcrumb": [],
       "metadata": {
+        "replication-method": "INCREMENTAL",
         "replication-key": "SystemModstamp",
         "valid-replication-keys": [
           "SystemModstamp"
