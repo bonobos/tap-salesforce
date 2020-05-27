@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.34
+ * Add catalog extacting Contact API which supports INCREMENTAL sync
+
 ## 1.4.33
  * Added support for catalog argument
 

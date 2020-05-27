@@ -4,7 +4,7 @@
 [![CircleCI Build Status](https://circleci.com/gh/singer-io/tap-salesforce.png)](https://circleci.com/gh/singer-io/tap-salesforce.png)
 
 
-[Singer](https://www.singer.io/) tap that extracts data from a [Salesforce](https://www.salesforce.com/) database and produces JSON-formatted data following the [Singer spec](https://github.com/singer-io/getting-started/blob/master/SPEC.md).
+[Singer](https://www.singer.io/) tap that extracts data from a [Salesforce](https://www.salesforce.com/) database and produces JSON-formatted data following the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md).
 
 ```bash
 $ mkvirtualenv -p python3 tap-salesforce
@@ -45,7 +45,7 @@ The `api_type` is used to switch the behavior of the tap between using Salesforc
 To run discovery mode, execute the tap with the config file.
 
 ```
-> tap-salesforce --config config.json --discover > properties.json
+> tap-salesforce --config config.json --discover > catalog.json
 ```
 
 ## Sync Data
@@ -53,7 +53,57 @@ To run discovery mode, execute the tap with the config file.
 To sync data, select fields in the `properties.json` output and run the tap.
 
 ```
-> tap-salesforce --config config.json --properties properties.json [--state state.json]
+> tap-salesforce --config config.json --catalog catalog.json [--state state.json]
 ```
+
+## Catalog, Extraction and Replication Types
+
+The included catalog file, `catalog.json`, is constructed to extract the Contact API and perform INCREMENTAL sync. 
+Refer to the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SYNC_MODE.md#replication-method) for 
+more information about replication types.
+
+By default, discovery mode will produce a catalog that forces a FULL_TABLE sync for all streams.
+
+To enable INCREMENTAL sync for any stream:
+
+1. Determine the replication key for the stream. The possible list of replication keys are normally identified by 
+discovery mode. These will be written to the stream metadata in the catalog in `valid-replication-keys`.
+
+    ```json
+    {
+      "breadcrumb": [],
+      "metadata": {
+        "valid-replication-keys": [
+          "SystemModstamp"
+        ],
+        "table-key-properties": [
+          "Id"
+        ],
+        "selected": true
+      }
+    }
+    ```
+
+2. Add replication key and replication method to the catalog. Edit stream metadata in the catalog to identify the 
+desired replication key and replication method.
+
+    ```json
+    {
+      "breadcrumb": [],
+      "metadata": {
+        "replication-method": "INCREMENTAL",
+        "replication-key": "SystemModstamp",
+        "valid-replication-keys": [
+          "SystemModstamp"
+        ],
+        "table-key-properties": [
+          "Id"
+        ],
+        "selected": true
+      }
+    }
+    ```
+
+
 
 Copyright &copy; 2017 Stitch
